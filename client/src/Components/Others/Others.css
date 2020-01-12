@@ -1,0 +1,26 @@
+#wordToday {
+  font-style: oblique;
+  color: rgba(0, 0, 0, .8);
+}
+h3 {
+  font-family: 'Quicksand', sans-serif;
+}
+.thoughts-section {
+  padding: 10px;
+  height: 400px;
+  overflow-y: scroll;
+}
+.fancy-scrollbar::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+.fancy-scrollbar::-webkit-scrollbar {
+  width: 20px;
+}
+.fancy-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+.fancy-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 100, 0, 0.5);
+  border-radius: 10px;
+}

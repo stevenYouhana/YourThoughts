@@ -1,0 +1,20 @@
+.main-dev {
+  /* background-color: rgba(0, 50, 200, 0.09); */
+  /* background-color: #ffffe5; */
+}
+.main-dev .funFact {
+  width: 40%;
+}
+
+.main-dev p {
+  padding-left: 10%;
+  font-size: .7rem;
+  word-wrap: break-word;
+  font-family: 'Dekko';
+  text-align: left;
+
+}
+h5 {
+  letter-spacing: 2px;
+  margin-bottom: -30px;
+}

@@ -1,0 +1,112 @@
+
+p {
+  
+}
+h4 {
+  font-family: 'Quicksand', sans-serif;
+}
+.wordToday {
+  color: #00ccff;
+  font-style: oblique;
+}
+.input-wrapper {
+  width: 100%;
+  left: 10px;
+  right: 10px;
+  background-position: right;
+  background-size: cover;
+}
+.user-inputs {
+  width: 400px;
+  text-align: center;
+  position: grid;
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  background-size: cover;
+}
+textarea {
+  resize: none;
+  outline: none;
+  font-family: 'Quicksand', sans-serif
+}
+/* .fancy-scrollbar::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+.fancy-scrollbar::-webkit-scrollbar {
+  width: 20px;
+}
+.fancy-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+.fancy-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 100, 0, 0.5);
+  border-radius: 10px;
+} */
+
+input {
+  outline: none;
+  font-family: 'Quicksand', sans-serif;
+}
+#second-row {
+  height: 40px;
+  position: relative;
+}
+#thought-input {
+  padding: 15px;
+  height: 140px;
+  margin-bottom: 4px;
+  border-top: none;
+  border-radius: 25px 0 0 0;
+  background-color: #ffffe5;
+  font-size: 12pt;
+}
+#user-email-field {
+  height: 90%;
+  padding-left: 15px;
+  border-width: .5pt;
+  border-bottom: none;
+  border-radius: 0 0 0 25px;
+  margin-bottom: 5px;
+  width: 75%;
+  float: left;
+  background-color: #ffffe5;
+  font-size: 12pt;
+}
+#btn-submit {
+  width: 20%;
+  height: 100%;
+  border: solid 1px rgba(204, 153, 0 ,0.8);
+  cursor: pointer;
+  float: right;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 14pt;
+  background-color: rgba(255, 255, 229, 0.9);
+  transition-duration: .4s;
+  outline: none;
+}
+#btn-submit:hover{
+	color: rgba(255, 255, 255, 0.9);
+  border-color: rgba(255,0,0,0.5);
+  background-color: rgba(0,0,0, .1);
+  font-weight: bold;
+}
+
+#btn-submit:active{
+	border-color: rgba(255,0,255,0.9);
+	background-color: rgba(200,255,200,0.9);
+	color: #002E40;
+	box-shadow: 2px;
+	-webkit-transform: translateY(1px);
+	-moz-transform: translateY(1px);
+	-o-transform: translateY(1px);
+	-ms-transform: translateY(1px);
+	transform: translateY(1px);
+}
+#btn-submit:disabled {
+  background-color: rgba(0,0,0,0.1);
+  color: rgba(200,255,200, .4);
+}
