@@ -2,6 +2,7 @@
 const Api = {
   othersFor: (word) => {
     return fetch(`/others/${word}`).then(response => {
+      console.log("fetch(`/others/${word}`).then(response =>, ", response);
       return response.json();
     })
   },

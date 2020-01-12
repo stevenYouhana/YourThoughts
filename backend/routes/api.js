@@ -8,6 +8,7 @@ module.exports = function(app) {
   DB_operations.connect(process.env.CONNECTION_STRING);
 
   app.get('/others/:word', function(req, res) {
+    console.log("app.get('/others/:word', function(req, res): ",req.params.word);
     DB_operations.getOtherThoughtsOn(req.params.word).then(result => {
       res.json({thoughts: result.map(el => el.thought)});
     });
@@ -15,7 +16,7 @@ module.exports = function(app) {
 
   app.post('/new', function(req, res) {
     console.log("app.get('/new', function(req, res): ",req.body);
-    const data = req.body;    
+    const data = req.body;
     DB_operations.newRecord(data.email, data.lon, data.lat, data.word, data.thought)
       .then(result => {
         if (result.message !== 'success') res.send(result.toStirng());

@@ -2,6 +2,7 @@ import React from 'react';
 import Thought from '../Thought/Thought';
 import Api from '../../util/Api';
 import './Others.css';
+
 export default class Others extends React.Component {
   constructor(props) {
     super(props);
@@ -18,6 +19,7 @@ export default class Others extends React.Component {
   renderThoughts() {
     // console.log('renderThoughts(): ', this.props.getOthers);
     return this.props.getOthers.map((thought, i) => {
+      console.log("renderThoughts(): ",thought)
         return <Thought key={i} thought={thought} />
     })
   }
