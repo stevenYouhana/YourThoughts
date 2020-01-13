@@ -4,8 +4,10 @@
 }
 h3 {
   font-family: 'Quicksand', sans-serif;
+  font-size: 10pt;
 }
 .thoughts-section {
+  /* width: 60%; */
   padding: 10px;
   height: 400px;
   overflow-y: auto;
