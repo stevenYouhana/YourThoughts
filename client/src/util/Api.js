@@ -17,7 +17,9 @@ const Api = {
       lon: data.lon,
       lat: data.lat
      })
-   }).then(data => console.log(data))
+   }).then(data => {
+     console.log(data);
+   })
     .catch(err => console.error(err));
   },
   others: (word) => {

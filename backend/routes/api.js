@@ -1,4 +1,5 @@
-
+const EmailValidation = require('../util/EmailValidation');
+const EmailServer = require('../util/EmailServer');
 
 module.exports = function(app) {
   const DB_operations = require('../Database');
@@ -17,12 +18,19 @@ module.exports = function(app) {
   app.post('/new', function(req, res) {
     console.log("app.get('/new', function(req, res): ",req.body);
     const data = req.body;
+    if (!EmailValidation.EmailValidator.validateEmail(data.email)) {
+      console.error("!EmailValidation.EmailValidator.validateEmail(data.email))>>");
+      res.send('invalid email!');
+      return;
+    }
     DB_operations.newRecord(data.email, data.lon, data.lat, data.word, data.thought)
       .then(result => {
-        if (result.message !== 'success') res.send(result.toStirng());
-        console.log('confirm saved');
+        if (result.message === 'success') {
+          console.log("if (result.message !== 'success')>> ",result);
+          EmailServer.sendEmail();
+          res.send(result);
+        }
       });
-    res.send('new record route!');
   })
 
 }

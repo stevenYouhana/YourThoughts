@@ -42,11 +42,11 @@ module.exports = {
       wordRecord.save(function(err, record) {
         if (err) {
           console.error(err);
-          reject(Error(err));
-          return {message: err};
+          reject(Error(err))
+            .catch(error => console.log("new record error: ",error.message));
         }
         console.info(record," saved!");
-        return {message: 'success'};
+        resolve({message: 'success'});
       });
     });
   },
@@ -55,7 +55,8 @@ module.exports = {
     return new Promise((resolve, reject) => {
       var wordOfDay = mongoose.model(word, wordSchema);
       wordOfDay.find({}, function(err, doc) {
-        if (err) reject(Error(err));
+        if (err) reject(Error(err))
+          .catch(error => console.log("getOtherThoughtsOn word: ", error.message));
         resolve(doc);
       });
     });

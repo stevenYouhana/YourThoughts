@@ -18,8 +18,7 @@ export default class Others extends React.Component {
   }
   renderThoughts() {
     // console.log('renderThoughts(): ', this.props.getOthers);
-    return this.props.getOthers.map((thought, i) => {
-      console.log("renderThoughts(): ",thought)
+    return this.props.getOthers.map((thought, i) => {      
         return <Thought key={i} thought={thought} />
     })
   }

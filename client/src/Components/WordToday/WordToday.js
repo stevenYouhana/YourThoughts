@@ -10,12 +10,20 @@ export default class WordToday extends React.Component {
     this.state = {showOthers: false}
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getOthers = this.getOthers.bind(this);
+    this.validateEmail = this.validateEmail.bind(this);
+  }
+  validateEmail(email) {
+   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      return (true)
+    }
+      alert("You have entered an invalid email address!")
+      return (false)
   }
   handleSubmit() {
     const thought = document.querySelector('#thought-input').value;
     const email =  document.querySelector('#user-email-field').value;
     const word = this.props.wordToday;
-
+    if (!this.validateEmail(email)) return;
     if (!thought || !email) return alert("Fill in all fields to submit");
     this.getOthers();
     Api.newRecord({
@@ -26,7 +34,7 @@ export default class WordToday extends React.Component {
       lat: 0
     });
     this.setState({showOthers: true, others: []});
-    document.querySelector("#btn-submit").disabled = true;
+    // document.querySelector("#btn-submit").disabled = true;
   }
   getOthers() {
     Api.othersFor(this.props.wordToday).then(response => {
