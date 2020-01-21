@@ -1,5 +1,6 @@
 const EmailValidation = require('../util/EmailValidation');
 const EmailServer = require('../util/EmailServer');
+const Location = require('../util/Location');
 
 module.exports = function(app) {
   const DB_operations = require('../Database');
@@ -9,28 +10,26 @@ module.exports = function(app) {
   DB_operations.connect(process.env.CONNECTION_STRING);
 
   app.get('/others/:word', function(req, res) {
-    console.log("app.get('/others/:word', function(req, res): ",req.params.word);
     DB_operations.getOtherThoughtsOn(req.params.word).then(result => {
       res.json({thoughts: result.map(el => el.thought)});
     });
   })
 
+
   app.post('/new', function(req, res) {
-    console.log("app.get('/new', function(req, res): ",req.body);
     const data = req.body;
     if (!EmailValidation.EmailValidator.validateEmail(data.email)) {
-      console.error("!EmailValidation.EmailValidator.validateEmail(data.email))>>");
       res.send('invalid email!');
       return;
     }
-    DB_operations.newRecord(data.email, data.lon, data.lat, data.word, data.thought)
+    DB_operations.newRecord(data.email, data.region, data.lon, data.lat, data.word,
+      data.thought, req.clientIp)
       .then(result => {
         if (result.message === 'success') {
           console.log("if (result.message !== 'success')>> ",result);
-          EmailServer.sendEmail();
+          // EmailServer.sendEmail();
           res.send(result);
         }
       });
   })
-
 }

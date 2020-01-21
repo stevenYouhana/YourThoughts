@@ -1,8 +1,14 @@
 
 const Api = {
+  getLocation: () => {
+    return fetch('https://ipapi.co/json/').then(response => {
+      // console.log("fgetLocation: () => ");
+      return response.json();
+    })
+  },
   othersFor: (word) => {
     return fetch(`/others/${word}`).then(response => {
-      console.log("fetch(`/others/${word}`).then(response =>, ", response);
+      // console.log("fetch(`/others/${word}`).then(response =>, ", response);
       return response.json();
     })
   },
@@ -14,6 +20,7 @@ const Api = {
       email: data.email,
       word: data.word,
       thought: data.thought,
+      region: data.region,
       lon: data.lon,
       lat: data.lat
      })

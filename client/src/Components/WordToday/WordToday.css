@@ -5,6 +5,12 @@ p {
 h4 {
   font-family: 'Quicksand', sans-serif;
 }
+.top-of-page {
+  /* background-color: yellow; */
+    z-index: 99 !important;
+    position: fixed;
+    /* z-index: 10; */
+}
 .wordToday {
   color: #00ccff;
   font-style: oblique;

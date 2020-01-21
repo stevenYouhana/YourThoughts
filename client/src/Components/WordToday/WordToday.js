@@ -1,59 +1,67 @@
 import React from 'react';
+import Submit from './Submit';
 import Others from '../Others/Others';
 import './WordToday.css';
 import background from './background.jpg'
 import Api from '../../util/Api';
+import ConfirmAlert from '../ConfirmAlert/ConfirmAlert';
+import Alert from '../Alert/Alert'
 
 export default class WordToday extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {showOthers: false}
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.getOthers = this.getOthers.bind(this);
-    this.validateEmail = this.validateEmail.bind(this);
-  }
-  validateEmail(email) {
-   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-      return (true)
-    }
-      alert("You have entered an invalid email address!")
-      return (false)
-  }
-  handleSubmit() {
-    const thought = document.querySelector('#thought-input').value;
-    const email =  document.querySelector('#user-email-field').value;
-    const word = this.props.wordToday;
-    if (!this.validateEmail(email)) return;
-    if (!thought || !email) return alert("Fill in all fields to submit");
-    this.getOthers();
-    Api.newRecord({
-      email: email,
-      word: word,
-      thought: thought,
+    this.state = {
+      showOthers: false,
+      showLocationAlert: true,
+      error: false,
+      region: 'private',
       lon: 0,
       lat: 0
-    });
-    this.setState({showOthers: true, others: []});
-    // document.querySelector("#btn-submit").disabled = true;
+    }
+    this.getOthers = this.getOthers.bind(this);
+    this.setLocation = this.setLocation.bind(this);
+    this.showOthers = this.showOthers.bind(this);
   }
-  getOthers() {
-    Api.othersFor(this.props.wordToday).then(response => {
 
+  showOthers() {
+    this.setState({showOthers: true, others: []});
+  }
+  getOthers(response) {
       response.thoughts.map(thought => {
         this.setState({others: [...this.state.others, thought]});
       })
-    });
+  }
+  // yesAction() {
+  //     console.log("Api.getLocation().then ");
+  //       Api.getLocation().then(res => {
+  //         this.setState({
+  //           showLocationAlert: false,
+  //           region: res.region,
+  //           lon: res.longitude,
+  //           lat: res.latitude
+  //         })
+  //       })
+  // }
+  setLocation(res) {
+    this.setState({
+      showLocationAlert: false,
+      region: res.region,
+      lon: res.longitude,
+      lat: res.latitude
+    })
   }
   render() {
     return(
       <div className="main">
+      {this.state.error ? <Alert /> : null}
+      {this.state.showLocationAlert ? <ConfirmAlert setLocation={this.setLocation} /> : null}
         <h4>Word for today: <span className="wordToday">{this.props.wordToday}</span></h4>
          <div className="input-wrapper">
           <div className="user-inputs">
             <textarea id="thought-input" className="fancy-scrollbar" type="text" placeholder="Speak your thoughts ..." />
             <div id="second-row">
               <input id="user-email-field" type="text" placeholder="email address"/>
-              <button id="btn-submit" onClick={this.handleSubmit}>Send</button>
+              <Submit id="btn-submit" getOthers={this.getOthers} showOthers={this.showOthers} />
             </div>
             {
               this.state.showOthers ?

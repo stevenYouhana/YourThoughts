@@ -18,13 +18,13 @@ export default class Others extends React.Component {
   }
   renderThoughts() {
     // console.log('renderThoughts(): ', this.props.getOthers);
-    return this.props.getOthers.map((thought, i) => {      
+    return this.props.getOthers.map((thought, i) => {
         return <Thought key={i} thought={thought} />
     })
   }
 
   componentDidMount() {
-    console.log('componentDidMount()')
+    console.log('Others.js >> componentDidMount()')
     Api.othersFor(this.props.wordToday).then(response => {
       this.setState({others: response.thought});
     });

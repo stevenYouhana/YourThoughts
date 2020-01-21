@@ -1,5 +1,5 @@
-
 var mongoose = require('mongoose');
+const timeZone = require('mongoose-timezone');
 
 var wordSchema;
 module.exports = {
@@ -17,28 +17,35 @@ module.exports = {
       user_email: String,
       word: String,
       thought: String,
-      lon: Number,
-      lat: Number
+      date: Date,
+      metadata: {
+        region: String,
+        lon: Number,
+        lat: Number,
+        ip: String
+      }
     });
+    wordSchema.plugin(timeZone);
   },
-  newRecord: function(email, lon, lat, word, thought) {
+  newRecord: function(email, region, lon, lat, word, thought, clientIp) {
     return new Promise((resolve, reject) => {
       var wordOfDay = mongoose.model(word, wordSchema);
-      console.info('WORD: '+word)
-      console.log('save new record as', {
+      // const date = Date(new Date().toLocaleString('en-NZ', { timeZone: 'Pacific/Auckland' }));
+      // console.log("new Date() ",date);
+      var record = {
         user_email: email,
         word: word,
         thought: thought,
-        lon: lon,
-        lat: lat
-      })
-      var wordRecord = new wordOfDay({
-        user_email: email,
-        word: word,
-        thought: thought,
-        lon: lon,
-        lat: lat
-      });
+        date: new Date(),
+        metadata: {
+          region: region,
+          lon: lon,
+          lat: lat,
+          ip: clientIp
+        }
+      }
+      console.log('save new record as', record)
+      var wordRecord = new wordOfDay(record);
       wordRecord.save(function(err, record) {
         if (err) {
           console.error(err);
@@ -51,7 +58,6 @@ module.exports = {
     });
   },
   getOtherThoughtsOn: function(word) {
-    console.log("find for "+word);
     return new Promise((resolve, reject) => {
       var wordOfDay = mongoose.model(word, wordSchema);
       wordOfDay.find({}, function(err, doc) {
