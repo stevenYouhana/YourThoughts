@@ -27,18 +27,40 @@ export default class Submit extends React.Component {
       console.log(localStorage.key(i))
       existingEntry = localStorage.key(i) ? true : false;
     }
-    console.log("existingEntry: "+existingEntry);
-    if (!existingEntry) {
-      console.log("if (!existingEntry) ", existingEntry)
+    const setLocalStorage = (data) => {
+      localStorage.removeItem('clientIp');
+      localStorage.removeItem('word');
+      localStorage.removeItem('email');
+      localStorage.setItem('clientIp', data.ip);
+      localStorage.setItem('word', word);
+      localStorage.setItem('email', email);
+    }
+  
       Api.getLocation().then(result => {
-        const prevWord = localStorage.getItem('word');
-        const prevEmail = localStorage.getItem('email');
-        const prevIp = localStorage.getItem('clientIp');
+        if (existingEntry) {
+          const prevWord = localStorage.getItem('word');
+          const prevEmail = localStorage.getItem('email');
+          const prevIp = localStorage.getItem('clientIp');
+          if (prevIp !== result.ip ||
+            prevWord !== word ||
+            prevEmail !== email) {
+            Api.newRecord({
+              email: email,
+              word: word,
+              thought: thought,
+              region: this.props.region,
+              lon: this.props.lon,
+              lat: this.props.lat
+            });
+            setLocalStorage(result);
+          }
+          else {
+            alert("You have already sent your thought to this word");
+            setLocalStorage(result);
+          }
 
-        if (prevIp !== result.ip &&
-          prevWord !== word &&
-          prevEmail !== email) {
-            console.log("if (prevIp !== result.ip &&prevWord !== word &&prevEmail !== email)")
+      }
+      else {
           Api.newRecord({
             email: email,
             word: word,
@@ -47,33 +69,10 @@ export default class Submit extends React.Component {
             lon: this.props.lon,
             lat: this.props.lat
           });
-        }
-        else {
-          console.log("localStorage: ",localStorage)
-          alert("You have already sent your thought to this word");
-        }
-      });
-    }
-    else {
-      Api.getLocation().then(result => {
-        console.log("Api.getLocation().then(result => { ",result.ip);
-          localStorage.removeItem('clientIp');
-          localStorage.removeItem('word');
-          localStorage.removeItem('email');
-          localStorage.setItem('clientIp', result.ip);
-          localStorage.setItem('word', word);
+          setLocalStorage(result);
+      }
+    });
 
-          Api.newRecord({
-            email: email,
-            word: word,
-            thought: thought,
-            region: this.props.region,
-            lon: this.props.lon,
-            lat: this.props.lat
-          });
-      })
-    }
-    
     Api.othersFor(this.props.wordToday).then(response => {
         this.props.getOthers(response);
      });

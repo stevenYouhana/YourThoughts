@@ -1,11 +1,10 @@
 import React from 'react';
 import Submit from './Submit';
 import Others from '../Others/Others';
-import './WordToday.css';
 import background from './background.jpg'
-import Api from '../../util/Api';
 import ConfirmAlert from '../ConfirmAlert/ConfirmAlert';
 import Alert from '../Alert/Alert'
+import './WordToday.css';
 
 export default class WordToday extends React.Component {
   constructor(props) {
@@ -22,7 +21,6 @@ export default class WordToday extends React.Component {
     this.setLocation = this.setLocation.bind(this);
     this.showOthers = this.showOthers.bind(this);
   }
-
   showOthers() {
     this.setState({showOthers: true, others: []});
   }
@@ -31,17 +29,6 @@ export default class WordToday extends React.Component {
         this.setState({others: [...this.state.others, thought]});
       })
   }
-  // yesAction() {
-  //     console.log("Api.getLocation().then ");
-  //       Api.getLocation().then(res => {
-  //         this.setState({
-  //           showLocationAlert: false,
-  //           region: res.region,
-  //           lon: res.longitude,
-  //           lat: res.latitude
-  //         })
-  //       })
-  // }
   setLocation(res) {
     this.setState({
       showLocationAlert: false,
@@ -61,7 +48,7 @@ export default class WordToday extends React.Component {
             <textarea id="thought-input" className="fancy-scrollbar" type="text" placeholder="Speak your thoughts ..." />
             <div id="second-row">
               <input id="user-email-field" type="text" placeholder="email address"/>
-              <Submit id="btn-submit" getOthers={this.getOthers} showOthers={this.showOthers} />
+              <Submit id="btn-submit" wordToday={this.props.wordToday} getOthers={this.getOthers} showOthers={this.showOthers} />
             </div>
             {
               this.state.showOthers ?
