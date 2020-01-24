@@ -27,7 +27,11 @@ module.exports = function(app) {
       .then(result => {
         if (result.message === 'success') {
           console.log("if (result.message !== 'success')>> ",result);
-          // EmailServer.sendEmail();
+          DB_operations.getSubmissionDetails(data.email, data.word)
+            .then(result => {
+              console.log("getSubmissionDetails results: ", result)
+              EmailServer.sendEmail(data.email, data.word, data.thought);
+            })
           res.send(result);
         }
       });

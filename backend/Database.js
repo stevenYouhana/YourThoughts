@@ -30,8 +30,6 @@ module.exports = {
   newRecord: function(email, region, lon, lat, word, thought, clientIp) {
     return new Promise((resolve, reject) => {
       var wordOfDay = mongoose.model(word, wordSchema);
-      // const date = Date(new Date().toLocaleString('en-NZ', { timeZone: 'Pacific/Auckland' }));
-      // console.log("new Date() ",date);
       var record = {
         user_email: email,
         word: word,
@@ -66,6 +64,15 @@ module.exports = {
         resolve(doc);
       });
     });
-
+  },
+  getSubmissionDetails: function(userEmail, word) {
+    return new Promise((resolve, reject) => {
+      var wordOfDay = mongoose.model(word, wordSchema);
+      wordOfDay.find({email: userEmail}, function(err, doc) {
+        if (err) reject(Error(err))
+          .catch(error => console.log("getOtherThoughtsOn word: ", error.message));
+        resolve(doc);
+      });
+    });
   }
 }

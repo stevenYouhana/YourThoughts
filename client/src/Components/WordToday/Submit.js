@@ -35,7 +35,7 @@ export default class Submit extends React.Component {
       localStorage.setItem('word', word);
       localStorage.setItem('email', email);
     }
-  
+
       Api.getLocation().then(result => {
         if (existingEntry) {
           const prevWord = localStorage.getItem('word');
@@ -48,9 +48,9 @@ export default class Submit extends React.Component {
               email: email,
               word: word,
               thought: thought,
-              region: this.props.region,
-              lon: this.props.lon,
-              lat: this.props.lat
+              region: result.region,
+              lon: result.longitude,
+              lat: result.latitude
             });
             setLocalStorage(result);
           }
