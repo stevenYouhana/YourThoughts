@@ -1,5 +1,5 @@
 var nodemailer = require('nodemailer');
-const text = "A user has responded to a word";
+const text = "A user has responded to a word!";
 var dotenv = require('dotenv');
 dotenv.config();
 
@@ -19,17 +19,18 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-var mailOptions = {
-  from: process.env.MAIL_USER,
-  to: 'stevenyouhana@gmail.com',
-  subject: 'Speak Your Thoughts - new submission',
-  text: text
-};
 
-module.exports.sendEmail = function(email, word, thought) {
-  mailOptions.subject += ` from ${email}`;
-  mailOptions.text += `\n\rUser: ${email} has commented on word "${word}"`
-    +`\n\r\n\rThought: ${thought}\n\r\n\rYourthoughts development team`;
+module.exports.sendEmail = function(email, word, thought, region) {
+  var mailOptions = {
+    from: process.env.MAIL_USER,
+    to: 'stevenyouhana@gmail.com',
+    subject: 'Speak Your Thoughts - new submission from ' + email,
+    text: text + `\n\rUser: ${email} has commented on word "${word}"`
+      +`\n\r\n\rThought: ${thought}`
+      +`\n\r\n\rUser location: ${region}`
+      +`\n\r\n\rYourthoughts development team`
+  };
+
   transporter.sendMail(mailOptions, function(error, info) {
     if (error) {
       console.log(error);

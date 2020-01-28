@@ -7,7 +7,7 @@ import FunFact from '../FunFact/FunFact';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {words: ["sky","heaven","earth","us","you"]}
+    this.state = {words: ["notion","faith","dogma","feeling","assumption", "believing","heaven"]}
     this.wordToday = this.wordToday.bind(this);
   }
   wordToday() {

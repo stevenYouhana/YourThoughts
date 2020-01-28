@@ -16,8 +16,8 @@ class ConfirmAlert extends React.Component {
       return (
         <div className='location-confirmAlert'>
           <h5>YourThoughts would like to access your current location</h5>
-          <button className="alert-button" onClick={onClose}>No</button>
-          <button className="alert-button"
+          <button id="btn-location-no" className="alert-button" onClick={onClose}>No</button>
+          <button id="btn-location-ok" className="alert-button"
             onClick={() => {
               this.yesAction();
               setTimeout(() => {

@@ -30,7 +30,7 @@ module.exports = function(app) {
           DB_operations.getSubmissionDetails(data.email, data.word)
             .then(result => {
               console.log("getSubmissionDetails results: ", result)
-              EmailServer.sendEmail(data.email, data.word, data.thought);
+              EmailServer.sendEmail(data.email, data.word, data.thought, data.region);
             })
           res.send(result);
         }

@@ -3,7 +3,6 @@ import Submit from './Submit';
 import Others from '../Others/Others';
 import background from './background.jpg'
 import ConfirmAlert from '../ConfirmAlert/ConfirmAlert';
-import Alert from '../Alert/Alert'
 import './WordToday.css';
 
 export default class WordToday extends React.Component {
@@ -39,8 +38,7 @@ export default class WordToday extends React.Component {
   }
   render() {
     return(
-      <div className="main">
-      {this.state.error ? <Alert /> : null}
+      <div className="main">      
       {this.state.showLocationAlert ? <ConfirmAlert setLocation={this.setLocation} /> : null}
         <h4>Word for today: <span className="wordToday">{this.props.wordToday}</span></h4>
          <div className="input-wrapper">
