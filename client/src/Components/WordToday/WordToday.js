@@ -38,15 +38,19 @@ export default class WordToday extends React.Component {
   }
   render() {
     return(
-      <div className="main">      
+      <div className="main">
       {this.state.showLocationAlert ? <ConfirmAlert setLocation={this.setLocation} /> : null}
-        <h4>Word for today: <span className="wordToday">{this.props.wordToday}</span></h4>
+        <h4>Speak your thoughts about <span className="wordToday">{this.props.wordToday}</span></h4>
          <div className="input-wrapper">
           <div className="user-inputs">
             <textarea id="thought-input" className="fancy-scrollbar" type="text" placeholder="Speak your thoughts ..." />
             <div id="second-row">
               <input id="user-email-field" type="text" placeholder="email address"/>
-              <Submit id="btn-submit" wordToday={this.props.wordToday} getOthers={this.getOthers} showOthers={this.showOthers} />
+              <Submit id="btn-submit" wordToday={this.props.wordToday}
+                getOthers={this.getOthers}
+                showOthers={this.showOthers}
+                location={this.state.region}
+                />
             </div>
             {
               this.state.showOthers ?

@@ -4,7 +4,6 @@ import Api from '../../util/Api';
 import './ConfirmAlert.css';
 class ConfirmAlert extends React.Component {
   yesAction = () => {
-      console.log("Api.getLocation().then ");
         Api.getLocation().then(res => {
           this.props.setLocation(res);
         })

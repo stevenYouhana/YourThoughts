@@ -12,8 +12,9 @@ const SubmitHandle = (props) => {
         const email =  document.querySelector('#user-email-field').value;
         const word = props.wordToday;
 
-        if (!props.validateEmail(email)) return alert.show("You have entered an invalid email address!");
-        if (!thought || !email) return alert.show("Fill in all fields to submit");
+        if (!thought || !email) return alert.show("fill in all fields to submit");
+        if (!props.validateEmail(email)) return alert.show("invalid email address!");
+
         let existingEntry = false;
         for (let i=0; i<3; i++) {
           existingEntry = localStorage.key(i) ? true : false;
@@ -39,17 +40,14 @@ const SubmitHandle = (props) => {
                 email: email,
                 word: word,
                 thought: thought,
-                region: result.region,
-                lon: result.longitude,
-                lat: result.latitude
+                region: props.location,
               });
               setLocalStorage(result);
             }
             else {
-              alert.show("You have already sent your thought to this word");
+              alert.show("Thanks! You have already sent your thought to this word");
               setLocalStorage(result);
             }
-
         }
         else {
             Api.newRecord({

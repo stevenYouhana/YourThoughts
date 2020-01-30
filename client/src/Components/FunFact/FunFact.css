@@ -12,7 +12,9 @@
   word-wrap: break-word;
   font-family: 'Dekko';
   text-align: left;
-
+}
+.funFact #author {
+  color: rgba(0, 0, 50, 0.6);  
 }
 h5 {
   letter-spacing: 2px;

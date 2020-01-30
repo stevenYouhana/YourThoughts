@@ -7,8 +7,7 @@ class App extends React.Component {
     super(props);
     this.connectToServer = this.connectToServer.bind(this);
   }
-  connectToServer() {
-    console.log("connectToServer()")
+  connectToServer() {    
     fetch('/');
   }
   componentDidMount() {
@@ -22,7 +21,7 @@ class App extends React.Component {
           <p>
             Edit <code>src/App.js</code> and save to reload.
           </p>
-        
+
         </header>
       </div>
     );
