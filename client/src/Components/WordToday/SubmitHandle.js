@@ -16,7 +16,6 @@ const SubmitHandle = (props) => {
         if (!thought || !email) return alert.show("Fill in all fields to submit");
         let existingEntry = false;
         for (let i=0; i<3; i++) {
-          console.log(localStorage.key(i))
           existingEntry = localStorage.key(i) ? true : false;
         }
         const setLocalStorage = (data) => {
@@ -57,9 +56,9 @@ const SubmitHandle = (props) => {
               email: email,
               word: word,
               thought: thought,
-              region: this.props.region,
-              lon: this.props.lon,
-              lat: this.props.lat
+              region: props.region,
+              lon: props.lon,
+              lat: props.lat
             });
             setLocalStorage(result);
         }

@@ -1,14 +1,12 @@
 
 const Api = {
   getLocation: () => {
-    return fetch('https://ipapi.co/json/').then(response => {
-      // console.log("fgetLocation: () => ");
+    return fetch('https://ipapi.co/json/').then(response => {      
       return response.json();
     })
   },
   othersFor: (word) => {
     return fetch(`/others/${word}`).then(response => {
-      // console.log("fetch(`/others/${word}`).then(response =>, ", response);
       return response.json();
     })
   },
@@ -24,10 +22,7 @@ const Api = {
       lon: data.lon,
       lat: data.lat
      })
-   }).then(data => {
-     console.log(data);
-   })
-    .catch(err => console.error(err));
+   }).catch(err => console.error(err));
   },
   others: (word) => {
     return fetch(`/others/test`).then(response => response.json());

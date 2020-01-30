@@ -14,7 +14,6 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(requestIp.mw())
 
 if (process.env.NODE_ENV === 'production') {
-console.log("if (process.env.NODE_ENV === 'production'): ",process.env.NODE_ENV)
   app.use(express.static(path.join(__dirname, 'client/build')));
   apiRoutes(app);
 
