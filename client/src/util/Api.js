@@ -1,7 +1,7 @@
 
 const Api = {
   getLocation: () => {
-    return fetch('https://ipapi.co/json/').then(response => {      
+    return fetch('https://ipapi.co/json/').then(response => {
       return response.json();
     })
   },
@@ -23,6 +23,12 @@ const Api = {
       lat: data.lat
      })
    }).catch(err => console.error(err));
+  },
+  getWordsForTheWeek: () => {
+    console.log("getWordsForTheWeek: () =>")
+    return fetch('/words').then(response => {      
+      return response;
+    });
   },
   others: (word) => {
     return fetch(`/others/test`).then(response => response.json());

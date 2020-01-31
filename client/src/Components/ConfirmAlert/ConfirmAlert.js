@@ -14,15 +14,14 @@ class ConfirmAlert extends React.Component {
     customUI: ({ onClose }) => {
       return (
         <div className='location-confirmAlert'>
-          <h5>YourThoughts would like to access your current location</h5>
-          <button id="btn-location-no" className="alert-button" onClick={onClose}>No</button>
+          <h5>YourThoughts would like to access the location of your current city</h5>
+          <button id="btn-location-no" className="alert-button" onClick={onClose}>Cancel</button>
           <button id="btn-location-ok" className="alert-button"
             onClick={() => {
               this.yesAction();
               setTimeout(() => {
                 onClose()
               }, 500)
-              // onClose();
             }}
           >
             Ok

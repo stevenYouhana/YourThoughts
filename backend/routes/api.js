@@ -6,6 +6,7 @@ module.exports = function(app) {
   const DB_operations = require('../Database');
   var dotenv = require('dotenv');
   dotenv.config();
+
   if (process.env.NODE_ENV === 'production') {
     console.log("DB_operations.connect(process.env.CONNECTION_STRING_PROD)")
     DB_operations.connect(process.env.CONNECTION_STRING_PROD);
@@ -15,6 +16,11 @@ module.exports = function(app) {
     DB_operations.connect(process.env.CONNECTION_STRING_DEV);
   }
 
+  app.get('/words', function(req, res) {    
+    DB_operations.getWordsForTheWeek().then(response => {
+      res.send(response)
+    })
+  })
 
   app.get('/others/:word', function(req, res) {
     DB_operations.getOtherThoughtsOn(req.params.word).then(result => {

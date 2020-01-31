@@ -3,13 +3,14 @@ import Submit from './Submit';
 import Others from '../Others/Others';
 import background from './background.jpg'
 import ConfirmAlert from '../ConfirmAlert/ConfirmAlert';
+import Api from '../../util/Api';
 import './WordToday.css';
 
 export default class WordToday extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      words: ["faith","assumption","heaven"],
+      words: ["ready..."],
       wordIndex: 0,
       selectedWord: '',
       showOthers: false,
@@ -23,7 +24,6 @@ export default class WordToday extends React.Component {
     this.getOthers = this.getOthers.bind(this);
     this.setLocation = this.setLocation.bind(this);
     this.showOthers = this.showOthers.bind(this);
-
     this.nextWord = this.nextWord.bind(this);
     this.randomiseWord = this.randomiseWord.bind(this);
   }
@@ -36,10 +36,15 @@ export default class WordToday extends React.Component {
   }
   nextWord() {
     this.state.wordIndex < this.state.words.length - 1 ?
-    this.setState({wordIndex: this.state.wordIndex+1}) :
+    this.setState({wordIndex: this.state.wordIndex + 1}) :
     this.setState({wordIndex: 0});
-    this.setState({selectedWord: this.state.words[this.state.wordIndex]});
-    this.setState({showOthers: false});
+
+    setTimeout(() => {
+      this.setState({
+        selectedWord: this.state.words[this.state.wordIndex],
+        showOthers: false
+      });
+    }, 10);
   }
 
   showOthers() {
@@ -62,7 +67,11 @@ export default class WordToday extends React.Component {
     this.nextWord();
   }
   componentDidMount() {
-    this.randomiseWord();
+    Api.getWordsForTheWeek().then(response => response.json())
+      .then(jsonResponse => {
+          this.setState({words: jsonResponse})
+          this.randomiseWord();
+      })
   }
   render() {
     return(

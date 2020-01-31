@@ -2,6 +2,8 @@ var mongoose = require('mongoose');
 const timeZone = require('mongoose-timezone');
 
 var wordSchema;
+var selectedWordsSchema;
+var WORDS_MODEL = "selected_words";
 module.exports = {
   connect: function(CONNECTION_STRING) {
     console.log("connect: function()")
@@ -11,7 +13,6 @@ module.exports = {
     db.on('error', console.error.bind(console, 'connection error:'));
     db.once('open', function() {
       console.log('connection successful!');
-
     });
     wordSchema = new mongoose.Schema({
       user_email: String,
@@ -25,9 +26,13 @@ module.exports = {
         ip: String
       }
     });
+    selectedWordsSchema = new mongoose.Schema({
+      words: Array
+    });
     wordSchema.plugin(timeZone);
   },
   newRecord: function(email, region, lon, lat, word, thought, clientIp) {
+    console.log("newRecord: function(email, region, lon, lat, word, thought, clientIp) {")
     return new Promise((resolve, reject) => {
       var wordOfDay = mongoose.model(word, wordSchema);
       var record = {
@@ -73,6 +78,17 @@ module.exports = {
           .catch(error => console.log("getOtherThoughtsOn word: ", error.message));
         resolve(doc);
       });
+    });
+  },
+  getWordsForTheWeek() {
+    return new Promise((resolve, reject) => {
+      var wordsForTheWeek = mongoose.model(WORDS_MODEL, selectedWordsSchema, WORDS_MODEL);
+      wordsForTheWeek.find({}, function(err, doc) {
+        if (err) reject(Error(err))
+          .catch(error => console.error("getWordsForTheWeek(): ", error.message));
+          console.log("getWordsForTheWeek() >>", doc[0].words);
+          setTimeout(() => resolve(doc[0].words), 100);          
+      })
     });
   }
 }

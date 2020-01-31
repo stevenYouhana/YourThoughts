@@ -1,4 +1,3 @@
-// App.js
 import React from 'react'
 import Api from '../../util/Api';
 import { useAlert } from 'react-alert'
@@ -15,67 +14,55 @@ const SubmitHandle = (props) => {
         if (!thought || !email) return alert.show("fill in all fields to submit");
         if (!props.validateEmail(email)) return alert.show("invalid email address!");
 
-        let existingEntry = false;
-        for (let i=0; i<3; i++) {
-          // console.log("localStorage.key(i) ",localStorage.key(i))
-          existingEntry = localStorage.key(i) ? true : false;
-        }
-
         const setLocalStorage = (data) => {
           localStorage.removeItem('clientIp');
-          // localStorage.removeItem('words');
           localStorage.removeItem('email');
           localStorage.setItem('clientIp', data.ip);
+          localStorage.setItem('email', email);
+
           if (localStorage.getItem('words')) {
               localStorage.setItem('words', [localStorage.getItem('words'), word]);
           }
           else localStorage.setItem('words', [word]);
-
-          console.log(localStorage.getItem('words'));
-          localStorage.setItem('email', email);
         }
 
-        Api.getLocation().then(result => {
-          if (existingEntry) {
-              console.log("if existingEntry: "+existingEntry)
-            // const prevWord = localStorage.getItem('word');
-            const prevEmail = localStorage.getItem('email');
-            const prevIp = localStorage.getItem('clientIp');
-            if (prevIp !== result.ip ||
-              !localStorage.getItem('words').includes(word) ||
-              prevEmail !== email) {
-              Api.newRecord({
-                email: email,
-                word: word,
-                thought: thought,
-                region: props.location,
-              });
-              setLocalStorage(result);
-            }
-            else {
-              alert.show("Thanks! You have already sent your thought to this word");
-              setLocalStorage(result);
-            }
-        }
-        else {
+        const prevEmail = localStorage.getItem('email');
+        if (!localStorage.getItem('words') || localStorage.getItem('words') === '') {
+            localStorage.setItem('email', email);
+            localStorage.setItem('words', [word]);
             Api.newRecord({
               email: email,
               word: word,
               thought: thought,
-              region: props.region,
-              lon: props.lon,
-              lat: props.lat
+              region: props.location,
             });
-            console.log("setLocalStorage(result)")
-            setLocalStorage(result);
         }
-      });
+        else {
+          if (prevEmail === email && localStorage.getItem('words').includes(word))
+            return alert.show("Thanks! you have already submitted your thought");
 
-      Api.othersFor(props.selectedWord).then(response => {
-          props.getOthers(response);
-       });
-       props.showOthers();
-      }}
+          if (prevEmail !== email) {
+            localStorage.setItem('email', email);
+            localStorage.setItem('words', [word]);
+          }
+          else {
+            if (!localStorage.getItem('words').includes(word)) {
+              localStorage.setItem('words', [localStorage.getItem('words'), word])
+            }
+          }
+          Api.newRecord({
+            email: email,
+            word: word,
+            thought: thought,
+            region: props.location,
+          });
+
+        }
+        Api.othersFor(props.selectedWord).then(response => {
+            props.getOthers(response);
+         });
+         props.showOthers();
+        }}
     >
       Send
     </button>
