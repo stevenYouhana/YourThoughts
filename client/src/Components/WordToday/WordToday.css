@@ -23,7 +23,7 @@ h4 {
   background-size: cover;
 }
 .user-inputs {
-  width: 60%;
+  width: 70%;
   text-align: center;
   position: grid;
   margin-left: auto;
@@ -113,29 +113,37 @@ input {
   padding: 5px;
   font-weight: bold;
   color: rgba(100, 50, 0 ,0.8);
-  border: solid 7px rgba(250, 113, 0 ,0.9) 10px;
+  border: solid rgba(250, 113, 0 ,0.9) 1px 1px;
   border-radius: 0px 20px 0px 20px;
   cursor: pointer;
   font-family: 'Quicksand', sans-serif;
   font-size: 1rem;
   background-color: rgba(255, 255, 200, 0.7);
   transition-duration: .3s;
-  outline: none;
+  outline:0 !important;
 }
+
 #btn-nextWord:active {
 	border-color: rgba(255,0,255,0.9);
 	background-color: rgba(200,255,200,0.9);
 	color: #002E40;
 	box-shadow: 2px;
-	-webkit-transform: translateX(5px);
-	-moz-transform: translateX(5px);
-	-o-transform: translateX(5px);
+	-webkit-transform: translateX(1px);
+	-moz-transform: translateX(1px);
+	-o-transform: translateX(1px);
 	-ms-transform: translateX(28px);
 	transform: translateX(28px);
+  outline:0;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 #btn-nextWord:hover {
-	color: rgba(255, 255, 255, 0.9);
+  background-color: $bg-hover;
+	color: $bg-hover;;
   border-color: rgba(255,0,0,0.5);
-  background-color: rgba(0, 204, 255, .2);
   font-weight: bold;
+  outline:0 !important;
+}
+#btn-nextWord:focus {
+  background-color: $bg-hover;
+  outline:0 !important;
 }
