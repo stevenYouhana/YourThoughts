@@ -7,7 +7,6 @@ var auth= {
   user: process.env.MAIL_USER,
   pass: process.env.MAIL_PASSWORD
 }
-console.log("auth: ",auth)
 var transporter = nodemailer.createTransport({
   service: 'outlook',
   auth: {

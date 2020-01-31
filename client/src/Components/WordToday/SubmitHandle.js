@@ -10,31 +10,39 @@ const SubmitHandle = (props) => {
       onClick={() => {
         const thought = document.querySelector('#thought-input').value;
         const email =  document.querySelector('#user-email-field').value;
-        const word = props.wordToday;
+        const word = props.selectedWord;
 
         if (!thought || !email) return alert.show("fill in all fields to submit");
         if (!props.validateEmail(email)) return alert.show("invalid email address!");
 
         let existingEntry = false;
         for (let i=0; i<3; i++) {
+          // console.log("localStorage.key(i) ",localStorage.key(i))
           existingEntry = localStorage.key(i) ? true : false;
         }
+
         const setLocalStorage = (data) => {
           localStorage.removeItem('clientIp');
-          localStorage.removeItem('word');
+          // localStorage.removeItem('words');
           localStorage.removeItem('email');
           localStorage.setItem('clientIp', data.ip);
-          localStorage.setItem('word', word);
+          if (localStorage.getItem('words')) {
+              localStorage.setItem('words', [localStorage.getItem('words'), word]);
+          }
+          else localStorage.setItem('words', [word]);
+
+          console.log(localStorage.getItem('words'));
           localStorage.setItem('email', email);
         }
 
         Api.getLocation().then(result => {
           if (existingEntry) {
-            const prevWord = localStorage.getItem('word');
+              console.log("if existingEntry: "+existingEntry)
+            // const prevWord = localStorage.getItem('word');
             const prevEmail = localStorage.getItem('email');
             const prevIp = localStorage.getItem('clientIp');
             if (prevIp !== result.ip ||
-              prevWord !== word ||
+              !localStorage.getItem('words').includes(word) ||
               prevEmail !== email) {
               Api.newRecord({
                 email: email,
@@ -58,11 +66,12 @@ const SubmitHandle = (props) => {
               lon: props.lon,
               lat: props.lat
             });
+            console.log("setLocalStorage(result)")
             setLocalStorage(result);
         }
       });
 
-      Api.othersFor(props.wordToday).then(response => {
+      Api.othersFor(props.selectedWord).then(response => {
           props.getOthers(response);
        });
        props.showOthers();

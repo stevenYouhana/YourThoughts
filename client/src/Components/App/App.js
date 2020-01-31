@@ -7,19 +7,16 @@ import FunFact from '../FunFact/FunFact';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {words: ["faith","assumption","heaven"]}
-    this.wordToday = this.wordToday.bind(this);
+
+
   }
-  wordToday() {
-    let ran = Math.floor(Math.random() * Math.floor(this.state.words.length));
-    return this.state.words[ran];
-  }
+  
   render() {
     return (
       <div className="App">
         <Header />
         <FunFact />
-        <WordToday wordToday={this.wordToday()} />
+        <WordToday />
       </div>
     );
   }

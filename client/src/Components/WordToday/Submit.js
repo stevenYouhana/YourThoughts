@@ -16,7 +16,7 @@ export default class Submit extends React.Component {
   }
   render() {
     return (
-      <SubmitHandle wordToday={this.props.wordToday}
+      <SubmitHandle selectedWord={this.props.selectedWord}
         validateEmail={this.validateEmail}
         getOthers={this.props.getOthers}
         showOthers={this.props.showOthers}

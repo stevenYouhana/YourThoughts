@@ -23,14 +23,14 @@ export default class Others extends React.Component {
   }
 
   componentDidMount() {
-    Api.othersFor(this.props.wordToday).then(response => {
+    Api.othersFor(this.props.selectedWord).then(response => {
       this.setState({others: response.thought});
     });
   }
   render() {
     return(
       <div>
-        <h3>Here is what others thought of <span id="wordToday">{this.props.wordToday}</span></h3>
+        <h3>Here is what others thought of <span id="wordToday">{this.props.selectedWord}</span></h3>
         <div className="thoughts-section fancy-scrollbar">
             {this.renderThoughts()}
         </div>

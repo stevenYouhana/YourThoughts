@@ -6,8 +6,15 @@ module.exports = function(app) {
   const DB_operations = require('../Database');
   var dotenv = require('dotenv');
   dotenv.config();
+  if (process.env.NODE_ENV === 'production') {
+    console.log("DB_operations.connect(process.env.CONNECTION_STRING_PROD)")
+    DB_operations.connect(process.env.CONNECTION_STRING_PROD);
+  }
+  else {
+    console.log("DB_operations.connect(process.env.CONNECTION_STRING_DEV)")
+    DB_operations.connect(process.env.CONNECTION_STRING_DEV);
+  }
 
-  DB_operations.connect(process.env.CONNECTION_STRING);
 
   app.get('/others/:word', function(req, res) {
     DB_operations.getOtherThoughtsOn(req.params.word).then(result => {
@@ -30,7 +37,7 @@ module.exports = function(app) {
           DB_operations.getSubmissionDetails(data.email, data.word)
             .then(result => {
               console.log("getSubmissionDetails results: ", result)
-              EmailServer.sendEmail(data.email, data.word, data.thought, data.region);
+              // EmailServer.sendEmail(data.email, data.word, data.thought, data.region);
             })
           res.send(result);
         }
