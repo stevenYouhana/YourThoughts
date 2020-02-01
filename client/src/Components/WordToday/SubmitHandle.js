@@ -8,7 +8,7 @@ const SubmitHandle = (props) => {
     <button id="btn-submit"
       onClick={() => {
         const thought = document.querySelector('#thought-input').value;
-        const email =  document.querySelector('#user-email-field').value;
+        const email =  document.querySelector('#user-email-field').value.trim();
         const word = props.selectedWord;
 
         if (!thought || !email) return alert.show("fill in all fields to submit");
@@ -38,9 +38,14 @@ const SubmitHandle = (props) => {
             });
         }
         else {
-          if (prevEmail === email && localStorage.getItem('words').includes(word))
-            return alert.show("Thanks! you have already submitted your thought");
+          if (prevEmail === email && localStorage.getItem('words').includes(word)) {
 
+            Api.othersFor(props.selectedWord).then(response => {
+                props.getOthers(response);
+             });
+            props.showOthers();
+            return alert.show("Thanks! you have already submitted your thought");
+          }
           if (prevEmail !== email) {
             localStorage.setItem('email', email);
             localStorage.setItem('words', [word]);
