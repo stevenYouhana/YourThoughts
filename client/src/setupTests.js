@@ -3,5 +3,6 @@ import Adapter from 'enzyme-adapter-react-16';
 configure(
   {
     adapter: new Adapter(),
-    "setupFiles": ["./src/setupTests.js"]
+    disableLifecycleMethods: true
+    // "setupFiles": ["./src/setupTests.js"]
   });

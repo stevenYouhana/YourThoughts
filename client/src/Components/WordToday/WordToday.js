@@ -78,7 +78,7 @@ export default class WordToday extends React.Component {
       <div className="main">
       {this.state.showLocationAlert ? <ConfirmAlert setLocation={this.setLocation} /> : null}
       <button id="btn-nextWord" onClick={this.handleNextWord}>next word</button>
-        <h4>Speak your thoughts about <span className="selectedWord">{this.state.selectedWord}</span></h4>
+        <h4>Speak your thoughts about <span id="selectedWord" className="selectedWord">{this.state.selectedWord}</span></h4>
          <div className="input-wrapper">
           <div className="user-inputs">
             <textarea id="thought-input" className="fancy-scrollbar" type="text" placeholder="Speak your thoughts ..." />
