@@ -12,8 +12,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(requestIp.mw())
-
+console.log("process.env.NODE_ENV ",process.env.NODE_ENV)
 if (process.env.NODE_ENV === 'production') {
+  console.log("process.env.NODE_ENV ",process.env.NODE_ENV)
   app.use(express.static(path.join(__dirname, 'client/build')));
   apiRoutes(app);
 

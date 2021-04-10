@@ -1,18 +1,17 @@
 const EmailValidation = require('../util/EmailValidation');
 const EmailServer = require('../util/EmailServer');
-const Location = require('../util/Location');
+// const Location = require('../util/Location');
 
 module.exports = function(app) {
   const DB_operations = require('../Database');
   var dotenv = require('dotenv');
   dotenv.config();
-
+  
   if (process.env.NODE_ENV === 'production') {
-    console.log("DB_operations.connect(process.env.CONNECTION_STRING_PROD)")
     DB_operations.connect(process.env.CONNECTION_STRING_PROD);
   }
   else {
-    console.log("DB_operations.connect(process.env.CONNECTION_STRING_DEV)")
+    DB_operations.testFetch();
     DB_operations.connect(process.env.CONNECTION_STRING_DEV);
   }
 
@@ -30,6 +29,7 @@ module.exports = function(app) {
 
 
   app.post('/new', function(req, res) {
+    console.log('new')
     const data = req.body;
     if (!EmailValidation.EmailValidator.validateEmail(data.email)) {
       res.send('invalid email!');

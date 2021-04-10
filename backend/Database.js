@@ -1,20 +1,23 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+const models = require('./models');
 const timeZone = require('mongoose-timezone');
 
 var wordSchema;
 var selectedWordsSchema;
-var WORDS_MODEL = "selected_words";
+const WORDS_MODEL = "words";
+
 module.exports = {
   connect: function(CONNECTION_STRING) {
-    console.log("connect: function()")
     mongoose.connect(CONNECTION_STRING, {useUnifiedTopology: true, useNewUrlParser: true});
     var db = mongoose.connection;
     // mongoose.pluralize(null);  Model name with no 's' at end
-    db.on('error', console.error.bind(console, 'connection error:'));
+    db.on('error', () => console.error("ERROR CONNECTION!")),//console.error.bind(console, 'connection error:'));
     db.once('open', function() {
+      mongoose.connection.on('connected', () => console.log("ON CONNECTED OK"))  
       console.log('connection successful!');
     });
-    wordSchema = new mongoose.Schema({
+    wordSchema = new Schema({
       user_email: String,
       word: String,
       thought: String,
@@ -26,14 +29,13 @@ module.exports = {
         ip: String
       }
     });
-    selectedWordsSchema = new mongoose.Schema({
+    selectedWordsSchema = new Schema({
       words: Array
     });
     wordSchema.plugin(timeZone);
   },
   newRecord: function(email, region, lon, lat, word, thought, clientIp) {
-    console.log("newRecord: function(email, region, lon, lat, word, thought, clientIp) {")
-    return new Promise((resolve, reject) => {
+    return new Promise( (resolve, reject) => {
       var wordOfDay = mongoose.model(word, wordSchema);
       var record = {
         user_email: email,
@@ -53,7 +55,7 @@ module.exports = {
         if (err) {
           console.error(err);
           reject(Error(err))
-            .catch(error => console.log("new record error: ",error.message));
+            .catch(error => console.log("new record error: ", error.message));
         }
         console.info(record," saved!");
         resolve({message: 'success'});
@@ -73,22 +75,37 @@ module.exports = {
   getSubmissionDetails: function(userEmail, word) {
     return new Promise((resolve, reject) => {
       var wordOfDay = mongoose.model(word, wordSchema);
-      wordOfDay.find({email: userEmail}, function(err, doc) {
+      wordOfDay.find({ email: userEmail }, function(err, doc) {
         if (err) reject(Error(err))
           .catch(error => console.log("getOtherThoughtsOn word: ", error.message));
         resolve(doc);
       });
     });
   },
-  getWordsForTheWeek() {
+  getWordsForTheWeek: function() {
     return new Promise((resolve, reject) => {
-      var wordsForTheWeek = mongoose.model(WORDS_MODEL, selectedWordsSchema, WORDS_MODEL);
-      wordsForTheWeek.find({}, function(err, doc) {
+      // var wordsForTheWeek = mongoose.model(WORDS_MODEL, selectedWordsSchema, WORDS_MODEL);
+      models.wordsModel.find( {}, function(err, doc) {
         if (err) reject(Error(err))
           .catch(error => console.error("getWordsForTheWeek(): ", error.message));
-          console.log("getWordsForTheWeek() >>", doc[0].words);
-          setTimeout(() => resolve(doc[0].words), 100);          
+          try {
+            console.log("getWordsForTheWeek() >>", doc[0].words);
+            setTimeout(() => resolve(doc[0].words), 100);
+          }
+          catch (e) {
+            console.log("trouble finding words from DB");
+            resolve(["No words today :("])
+          }
       })
     });
+  },
+  testFetch: function() {
+    console.log('test')
+    // let wordSchema = Schema({
+    //   words: Array
+    // });
+    // let model = mongoose.model('words', wordSchema);
+    // const words = ['faith', 'vibez', 'feelings', 'time', 'emotion'];
+    
   }
 }
