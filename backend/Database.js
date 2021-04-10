@@ -87,7 +87,6 @@ module.exports = {
         if (err) reject(Error(err))
           .catch(error => console.error("getWordsForTheWeek(): ", error.message));
           try {
-            console.log("getWordsForTheWeek() >>", doc[0].words);
             setTimeout(() => resolve(doc[0].words), 100);
           }
           catch (e) {
@@ -96,14 +95,5 @@ module.exports = {
           }
       })
     });
-  },
-  testFetch: function() {
-    console.log('test')
-    // let wordSchema = Schema({
-    //   words: Array
-    // });
-    // let model = mongoose.model('words', wordSchema);
-    // const words = ['faith', 'vibez', 'feelings', 'time', 'emotion'];
-    
   }
 }

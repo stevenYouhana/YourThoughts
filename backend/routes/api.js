@@ -4,14 +4,13 @@ const EmailServer = require('../util/EmailServer');
 
 module.exports = function(app) {
   const DB_operations = require('../Database');
-  var dotenv = require('dotenv');
+  const dotenv = require('dotenv');
   dotenv.config();
   
   if (process.env.NODE_ENV === 'production') {
     DB_operations.connect(process.env.CONNECTION_STRING_PROD);
   }
   else {
-    DB_operations.testFetch();
     DB_operations.connect(process.env.CONNECTION_STRING_DEV);
   }
 
@@ -29,7 +28,6 @@ module.exports = function(app) {
 
 
   app.post('/new', function(req, res) {
-    console.log('new')
     const data = req.body;
     if (!EmailValidation.EmailValidator.validateEmail(data.email)) {
       res.send('invalid email!');
