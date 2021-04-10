@@ -5,7 +5,6 @@ const timeZone = require('mongoose-timezone');
 
 var wordSchema;
 var selectedWordsSchema;
-const WORDS_MODEL = "words";
 
 module.exports = {
   connect: function(CONNECTION_STRING) {
@@ -36,7 +35,7 @@ module.exports = {
   },
   newRecord: function(email, region, lon, lat, word, thought, clientIp) {
     return new Promise( (resolve, reject) => {
-      var wordOfDay = mongoose.model(word, wordSchema);
+      var wordOfDay = models.modelFor(word);
       var record = {
         user_email: email,
         word: word,
@@ -63,8 +62,8 @@ module.exports = {
     });
   },
   getOtherThoughtsOn: function(word) {
-    return new Promise((resolve, reject) => {
-      var wordOfDay = mongoose.model(word, wordSchema);
+    return new Promise( (resolve, reject) => {
+      var wordOfDay = models.modelFor(word);
       wordOfDay.find({}, function(err, doc) {
         if (err) reject(Error(err))
           .catch(error => console.log("getOtherThoughtsOn word: ", error.message));
@@ -73,8 +72,8 @@ module.exports = {
     });
   },
   getSubmissionDetails: function(userEmail, word) {
-    return new Promise((resolve, reject) => {
-      var wordOfDay = mongoose.model(word, wordSchema);
+    return new Promise( (resolve, reject) => {
+      var wordOfDay = models.modelFor(word);
       wordOfDay.find({ email: userEmail }, function(err, doc) {
         if (err) reject(Error(err))
           .catch(error => console.log("getOtherThoughtsOn word: ", error.message));
@@ -83,8 +82,7 @@ module.exports = {
     });
   },
   getWordsForTheWeek: function() {
-    return new Promise((resolve, reject) => {
-      // var wordsForTheWeek = mongoose.model(WORDS_MODEL, selectedWordsSchema, WORDS_MODEL);
+    return new Promise( (resolve, reject) => {
       models.wordsModel.find( {}, function(err, doc) {
         if (err) reject(Error(err))
           .catch(error => console.error("getWordsForTheWeek(): ", error.message));
